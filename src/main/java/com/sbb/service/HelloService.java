@@ -1,10 +1,11 @@
-package com.example.sbb.service;
+package com.sbb.service;
 
 import org.springframework.stereotype.Service;
 
 @Service
 public class HelloService {
+
     public String hi() {
-        return "Hello Spring Boot!";
+        return "hello";
     }
 }

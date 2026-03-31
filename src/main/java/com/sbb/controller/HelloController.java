@@ -1,6 +1,6 @@
-package com.example.sbb.controller.dto;
+package com.sbb.controller;
 
-import com.example.sbb.service.HelloService;
+import com.sbb.service.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
     private final HelloService helloService;
 
-    @Autowired
+    @Autowired // 생성자 하나라면 생략 가능
     public HelloController(HelloService helloService) {
         this.helloService = helloService;
     }
 
     @GetMapping("/hello")
-    String hello() {
+    public String hello() {
         return helloService.hi();
     }
 }
