@@ -10,6 +10,7 @@ package com.sbb.service;
 import com.sbb.controller.dto.request.PostRequest;
 import com.sbb.controller.dto.response.PostResponse;
 import com.sbb.entity.PostEntity;
+import com.sbb.exception.PostNotFoundException;
 import com.sbb.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -66,8 +67,10 @@ public class PostService {
                 // findById(id) 결과에 게시글이 들어 있으면 → PostEntity 꺼냄
                 // 비어 있으면 → RuntimeException 발생, RuntimeException 타입의 예외 객체 생성
                 // "() ->" 는 "입력값 없이 뭔가를 실행, 생성"하라는 뜻
-                .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다. id=" + id));
+//                .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다. id=" + id));
 
+                // 404 Not Found를 반환하기 위해 PostNotFoundException 클래스 사용
+                .orElseThrow(() -> new PostNotFoundException("게시글을 찾을 수 없습니다. id=" + id));
         return toResponse(entity);
     }
 
@@ -77,7 +80,9 @@ public class PostService {
     // -> 따로 save하지 않아도 됨
     public void update(Long id, PostRequest request) {
         PostEntity entity = postRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다. id=" + id));
+//                .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다. id=" + id));
+                // 404 Not Found
+                .orElseThrow(() -> new PostNotFoundException("게시글을 찾을 수 없습니다. id=" + id));
 
         entity.setTitle(request.getTitle());
         entity.setContent(request.getContent());
@@ -88,8 +93,9 @@ public class PostService {
     // id가 존재하는지 먼저 확인하는 이유: 없는 id에 대해 404 처리를 하기 위해서
     public void delete(Long id) {
         postRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다. id=" + id));
-
+//                .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다. id=" + id));
+                // 404 Not Found
+                .orElseThrow(() -> new PostNotFoundException("게시글을 찾을 수 없습니다. id=" + id));
         postRepository.deleteById(id);
     }
 
