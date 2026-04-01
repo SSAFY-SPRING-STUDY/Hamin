@@ -17,13 +17,13 @@ public class PostRepository {
     // 즉, 객체가 새로 만들어져도 저장 리스트는 공통으로 유지
     private static final List<PostEntity> posts = new ArrayList<>();
     // ID 자동 증가용 sequence
-    private static Long sequence = 1L;
+//    private static Long sequence = 1L; Repository가 아닌 Entity에 책임 부여?
 
     // TODO: 전달받은 entity에 id 부여 후 리스트에 추가, 저장된 entity 반환
     // Repository는 저장소를 직접 다루는 계층이므로, 보통 Entity 기준으로 반환
     // 저장 결과가 반영된 엔티티를 반환해야 하므로 반환형은 PostEntity
     public PostEntity save(PostEntity entity) {
-        entity.setId(sequence++);
+//        entity.setId(sequence++);
         posts.add(entity);
         return entity;
     }

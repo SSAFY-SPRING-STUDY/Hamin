@@ -84,9 +84,7 @@ public class PostService {
                 // 404 Not Found
                 .orElseThrow(() -> new PostNotFoundException("게시글을 찾을 수 없습니다. id=" + id));
 
-        entity.setTitle(request.getTitle());
-        entity.setContent(request.getContent());
-        entity.setAuthor(request.getAuthor());
+        entity.update(request.getTitle(), request.getContent(), request.getAuthor());
     }
 
     // TODO: 먼저 id가 존재하는지 확인 -> 없으면 예외 발생, 있으면 삭제 수행
@@ -101,23 +99,23 @@ public class PostService {
 
     // DTO 변환용 private 메서드
     // Service 안에서는 DTO ↔ Entity 변환이 자주 필요하므로 보통 private 메서드로 분리
+    // PostResponse, PostRequest 모두 생성자 기반이므로 반환값으로 생성자를 만들기
     // TODO: request의 title/content/author를 꺼내서 새 PostEntity에 넣기
-    // id는 Repository가 자동 생성해주므로 여기서는 넣지 않기
     private PostEntity toEntity(PostRequest request) {
-        PostEntity entity = new PostEntity();
-        entity.setTitle(request.getTitle());
-        entity.setContent(request.getContent());
-        entity.setAuthor(request.getAuthor());
-        return entity;
+        return new PostEntity(
+                request.getTitle(),
+                request.getContent(),
+                request.getAuthor()
+        );
     }
 
     // TODO: entity의 id/title/content/author를 꺼내서 새 PostResponse에 넣기
     private PostResponse toResponse(PostEntity entity) {
-        PostResponse response = new PostResponse();
-        response.setId(entity.getId());
-        response.setTitle(entity.getTitle());
-        response.setContent(entity.getContent());
-        response.setAuthor(entity.getAuthor());
-        return response;
+        return new PostResponse(
+                entity.getId(),
+                entity.getTitle(),
+                entity.getContent(),
+                entity.getAuthor()
+        );
     }
 }
