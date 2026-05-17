@@ -1,9 +1,9 @@
-package com.sbb.repository;
+package com.sbb.domain.post.repository;
 
 // Repository의 필요성: 컨트롤러나 서비스가 직접 리스트에 접근하면 역할이 섞여서 구조가 지저분해지기 때문
 // -> 저장 관련 책임은 전부 Repository
 
-import com.sbb.entity.PostEntity;
+import com.sbb.domain.post.entity.PostEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

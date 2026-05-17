@@ -1,4 +1,4 @@
-package com.sbb.service;
+package com.sbb.domain.post.service;
 
 // Service 계층의 역할
 // - Request DTO → Entity 변환
@@ -7,13 +7,14 @@ package com.sbb.service;
 // - 게시글이 없을 때 예외 처리
 // - 수정/삭제 로직 수행
 
-import com.sbb.controller.dto.request.PostRequest;
-import com.sbb.controller.dto.response.PostResponse;
-import com.sbb.entity.PostEntity;
-import com.sbb.exception.PostNotFoundException;
-import com.sbb.repository.PostRepository;
+import com.sbb.domain.post.controller.dto.request.PostRequest;
+import com.sbb.domain.post.controller.dto.response.PostResponse;
+import com.sbb.domain.post.entity.PostEntity;
+import com.sbb.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,8 @@ public class PostService {
         List<PostResponse> responses = new ArrayList<>();
 
         for (PostEntity entity : entities) {
+            // Entity를 그대로 응답하지 않고 Response DTO로 변환해서 반환한다.
+            // 이렇게 해야 내부 저장 구조가 바뀌어도 외부 API 응답 형식을 안정적으로 유지할 수 있다.
             responses.add(toResponse(entity));
         }
 
@@ -67,10 +70,12 @@ public class PostService {
                 // findById(id) 결과에 게시글이 들어 있으면 → PostEntity 꺼냄
                 // 비어 있으면 → RuntimeException 발생, RuntimeException 타입의 예외 객체 생성
                 // "() ->" 는 "입력값 없이 뭔가를 실행, 생성"하라는 뜻
-//                .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다. id=" + id));
+                // Day 2 요구사항에서 없는 게시글은 404로 내려줘야 하므로 ResponseStatusException을 사용한다.
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "게시글을 찾을 수 없습니다. id=" + id
+                ));
 
-                // 404 Not Found를 반환하기 위해 PostNotFoundException 클래스 사용
-                .orElseThrow(() -> new PostNotFoundException("게시글을 찾을 수 없습니다. id=" + id));
         return toResponse(entity);
     }
 
@@ -80,42 +85,48 @@ public class PostService {
     // -> 따로 save하지 않아도 됨
     public void update(Long id, PostRequest request) {
         PostEntity entity = postRepository.findById(id)
-//                .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다. id=" + id));
-                // 404 Not Found
-                .orElseThrow(() -> new PostNotFoundException("게시글을 찾을 수 없습니다. id=" + id));
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "게시글을 찾을 수 없습니다. id=" + id
+                ));
 
-        entity.update(request.getTitle(), request.getContent(), request.getAuthor());
+        // 메모리 저장소에서는 리스트 안에 들어 있는 객체를 직접 수정하면 저장된 값도 함께 바뀐다.
+        entity.setTitle(request.getTitle());
+        entity.setContent(request.getContent());
+        entity.setAuthor(request.getAuthor());
     }
 
     // TODO: 먼저 id가 존재하는지 확인 -> 없으면 예외 발생, 있으면 삭제 수행
     // id가 존재하는지 먼저 확인하는 이유: 없는 id에 대해 404 처리를 하기 위해서
     public void delete(Long id) {
         postRepository.findById(id)
-//                .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다. id=" + id));
-                // 404 Not Found
-                .orElseThrow(() -> new PostNotFoundException("게시글을 찾을 수 없습니다. id=" + id));
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "게시글을 찾을 수 없습니다. id=" + id
+                ));
+
         postRepository.deleteById(id);
     }
 
     // DTO 변환용 private 메서드
     // Service 안에서는 DTO ↔ Entity 변환이 자주 필요하므로 보통 private 메서드로 분리
-    // PostResponse, PostRequest 모두 생성자 기반이므로 반환값으로 생성자를 만들기
     // TODO: request의 title/content/author를 꺼내서 새 PostEntity에 넣기
+    // id는 Repository가 자동 생성해주므로 여기서는 넣지 않기
     private PostEntity toEntity(PostRequest request) {
-        return new PostEntity(
-                request.getTitle(),
-                request.getContent(),
-                request.getAuthor()
-        );
+        PostEntity entity = new PostEntity();
+        entity.setTitle(request.getTitle());
+        entity.setContent(request.getContent());
+        entity.setAuthor(request.getAuthor());
+        return entity;
     }
 
     // TODO: entity의 id/title/content/author를 꺼내서 새 PostResponse에 넣기
     private PostResponse toResponse(PostEntity entity) {
-        return new PostResponse(
-                entity.getId(),
-                entity.getTitle(),
-                entity.getContent(),
-                entity.getAuthor()
-        );
+        PostResponse response = new PostResponse();
+        response.setId(entity.getId());
+        response.setTitle(entity.getTitle());
+        response.setContent(entity.getContent());
+        response.setAuthor(entity.getAuthor());
+        return response;
     }
 }

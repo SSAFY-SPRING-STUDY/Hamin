@@ -1,4 +1,4 @@
-package com.sbb.controller;
+package com.sbb.domain.post.controller;
 
 // Controller 계층의 역할
 // - URL 받기
@@ -7,9 +7,9 @@ package com.sbb.controller;
 // - Service 호출하기
 // - HTTP 상태코드와 응답 반환하기
 
-import com.sbb.controller.dto.request.PostRequest;
-import com.sbb.controller.dto.response.PostResponse;
-import com.sbb.service.PostService;
+import com.sbb.domain.post.controller.dto.request.PostRequest;
+import com.sbb.domain.post.controller.dto.response.PostResponse;
+import com.sbb.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
