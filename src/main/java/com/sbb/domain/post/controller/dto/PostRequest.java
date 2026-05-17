@@ -1,4 +1,4 @@
-package com.sbb.domain.post.controller.dto.request;
+package com.sbb.domain.post.controller.dto;
 
 import com.sbb.domain.member.entity.MemberEntity;
 import com.sbb.domain.post.entity.PostEntity;

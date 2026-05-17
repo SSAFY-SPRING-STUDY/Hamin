@@ -2,8 +2,8 @@ package com.sbb.domain.post.service;
 
 import com.sbb.domain.member.entity.MemberEntity;
 import com.sbb.domain.member.repository.MemberRepository;
-import com.sbb.domain.post.controller.dto.request.PostRequest;
-import com.sbb.domain.post.controller.dto.response.PostResponse;
+import com.sbb.domain.post.controller.dto.PostRequest;
+import com.sbb.domain.post.controller.dto.PostResponse;
 import com.sbb.domain.post.entity.PostEntity;
 import com.sbb.domain.post.repository.PostRepository;
 import com.sbb.global.exception.CustomException;
