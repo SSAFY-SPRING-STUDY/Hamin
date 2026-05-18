@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class PostRepository {
 
-    //  현재 단계에서는 DB 대신 Map을 게시글 저장소처럼 사용한다.
+    // 현재 단계에서는 DB 대신 Map을 게시글 저장소처럼 사용한다.
     // Key는 게시글 id, Value는 게시글 객체이다.
     private static final Map<Long, PostEntity> postStore = new ConcurrentHashMap<>();
 
