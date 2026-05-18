@@ -2,8 +2,8 @@ package com.sbb.domain.post.controller;
 
 import com.sbb.domain.auth.component.SessionManager;
 import com.sbb.domain.auth.util.AuthTokenUtils;
-import com.sbb.domain.post.controller.dto.request.PostRequest;
-import com.sbb.domain.post.controller.dto.response.PostResponse;
+import com.sbb.domain.post.controller.dto.PostRequest;
+import com.sbb.domain.post.controller.dto.PostResponse;
 import com.sbb.domain.post.service.PostService;
 import com.sbb.global.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
