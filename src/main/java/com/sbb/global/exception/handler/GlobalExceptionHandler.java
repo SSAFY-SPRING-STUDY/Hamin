@@ -1,7 +1,8 @@
-package com.sbb.global.exception;
+package com.sbb.global.exception.handler;
 
+import com.sbb.global.exception.CustomException;
 import com.sbb.global.exception.error.ErrorCode;
-import com.sbb.global.response.ApiResponse;
+import com.sbb.domain.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
