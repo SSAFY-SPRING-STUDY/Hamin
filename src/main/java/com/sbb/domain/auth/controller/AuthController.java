@@ -4,7 +4,7 @@ import com.sbb.domain.auth.controller.dto.LoginRequest;
 import com.sbb.domain.auth.controller.dto.LoginResponse;
 import com.sbb.domain.auth.service.AuthService;
 import com.sbb.domain.auth.util.AuthTokenUtils;
-import com.sbb.domain.ApiResponse;
+import com.sbb.global.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.sbb.domain;
+package com.sbb.global.response;
 
 import com.sbb.global.exception.error.ErrorCode;
 

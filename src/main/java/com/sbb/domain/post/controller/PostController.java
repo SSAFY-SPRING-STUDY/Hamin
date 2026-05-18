@@ -5,7 +5,7 @@ import com.sbb.domain.auth.util.AuthTokenUtils;
 import com.sbb.domain.post.controller.dto.PostRequest;
 import com.sbb.domain.post.controller.dto.PostResponse;
 import com.sbb.domain.post.service.PostService;
-import com.sbb.domain.ApiResponse;
+import com.sbb.global.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
