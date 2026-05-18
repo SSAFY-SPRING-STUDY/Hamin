@@ -11,7 +11,7 @@ public class PostEntity {
     private String title;
     private String content;
 
-    // 기존에는 작성자를 문자열로 저장했을 가능성이 높다.
+    // 기존에는 작성자를 문자열로 저장
     // 변경 전 예시: private String author;
     //
     // day4에서는 게시글 작성자를 단순 문자열이 아니라 MemberEntity로 연결한다.
